@@ -1,7 +1,7 @@
 Audio-Station project README:
 @author Artur Raglis
 
-Application uses script written in bash - "speech.sh" - 
+Application uses script written in bash - "speech.sh" (requires installed mplayer) - 
 copy it to destination folder to enable text to speech option.
 
 Don't forget to change script location in main.cpp file (textToSpeech(const char * ptr) method).
