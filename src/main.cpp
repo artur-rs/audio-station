@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <string>
 #include <string.h>
+#include <iomanip>
+#include <sstream>
 #include <iostream>
 #include <array>
 
@@ -41,7 +43,7 @@ Database db_wr = Database("World ", database_world);
 
 void textToSpeech(const char * ptr)
 {
-    char command[270] = {"/home/pi/Desktop/audiocpp/speech.sh "}; 
+    char command[270] = {"/home/artur-rs/Desktop/audiocpp/audio-station/speech.sh "}; 
     strcat(command, ptr); 
   
     try 
@@ -75,8 +77,11 @@ void setText(string astr[])
         case 4: astr[1] += " stopnie Celsjusza."; break;
         default: astr[1] += " stopni Celsjusza."; break;
     }
-
-    astr[2] = "Prędkość wiatru " + std::to_string(weather_data.getWindSpeed()) + " metrów na sekundę.";
+    
+    std::stringstream stream;
+    stream << std::fixed << std::setprecision(2) << weather_data.getWindSpeed();
+    
+    astr[2] = "Prędkość wiatru " + stream.str() + " metrów na sekundę.";
     astr[2] += "Ciśnienie atmosferyczne wynosi " + weather_data.getPressure() + " hektopaskali.";
     astr[2] += " Wilgotność powietrza sięga " + weather_data.getHumidity() + " procent.";
 }
