@@ -1,7 +1,8 @@
 /* -------------- main.cpp -------------- *
  * Main cpp file with OOP implementation. */
 
-#include "audiostation.h"
+#include "Audiostation.h"
+#include "Constants.h"
 #include <cstdlib>
 #include <string>
 #include <string.h>
@@ -14,31 +15,11 @@ using std::string;
 using std::cout;
 using std::endl;
 
-Location database_pl[DB_SIZE] = 
-{
-    {"Bialystok","53.14" , "23.16"},    {"Bydgoszcz","53.12" , "18.01"},    {"Czestochowa","50.83" , "19.11"},  {"Gdansk","54.36" , "18.64"},    
-    {"Gdynia","54.51" , "18.50"},       {"Gorzow_Wlkp","52.74" , "15.23"}, {"Katowice","50.26" , "19.02"},     {"Kielce","50.89" , "20.65"},       
-    {"Krakow","50.08" , "19.92"},       {"Lublin","51.25" , "22.57"},       {"Lodz","51.77" , "19.46"},         {"Olsztyn","53.78" , "20.49"},  
-    {"Opole","50.67" , "17.95"},        {"Poznan","52.40" , "16.90"},       {"Radom","21.16" , "51.42"},        {"Rzeszow","50.05" , "22.00"},      
-    {"Siedlce","52.17" , "22.29"},      {"Suwalki","54.11" , "22.94"},      {"Szczecin","53.43" , "14.62"},     {"Torun","53.01" , "18.59"},        
-    {"Warszawa","52.23" , "21.04"},     {"Wroclaw","51.11" , "17.03"},      {"Zakopane","49.27" , "19.97"},     {"Zielona_Gora","51.94" , "15.49"}
-};
-    
-Location database_world[DB_SIZE] =    
-{    
-    {"Ankara","39.92" , "32.85"},       {"Ateny","37.98" , "23.72"},         {"Bangkok","13.75" , "100.52"},        {"Berlin","52.52" , "13.41"},     
-    {"Budapeszt","47.50" , "19.04"},    {"Buenos_Aires","-34.61" , "-58.38"},{"Johannesburg","-26.20" , "28.04"},   {"Kair","30.06" , "31.25"},        
-    {"Londyn","51.51" , "-0.12"},       {"Los_Angeles","34.05" , "-118.24"}, {"Madryt","40.49" , "-3.68"},          {"Meksyk","19.43" , "-99.13"},         
-    {"Miami","25.77" , "-80.19"},       {"Montreal","45.51" , "-73.59"},     {"Moskwa","55.75" , "37.62"},          {"Nowy_Jork","40.71" , "-74.01"},   
-    {"Oslo","10.75" , "59.91"},         {"Paryz","48.85" , "2.35"},          {"Pekin","39.91" , "116.40"},          {"Rzym","41.89" , "12.48"},          
-    {"Sydney","-33.87" , "151.21"},     {"Sztokholm","59.33" , "18.06"},     {"Tokio","35.69" , "139.70"},          {"Waszyngton","38.89" , "-77.04"}
-};
-
 const int CMD_STR_SIZE = 3;
 GeoLocalisationData geo_data;
 WeatherData weather_data;
 ForecastData forecast_data;
-Database db_pl = Database("Poland",database_pl);
+Database db_pl = Database("Poland", database_pl);
 Database db_wr = Database("World ", database_world);
 
 void textToSpeech(const char * ptr)
@@ -77,7 +58,7 @@ void setText(string astr[])
         case 4: astr[1] += " stopnie Celsjusza."; break;
         default: astr[1] += " stopni Celsjusza."; break;
     }
-    
+
     std::stringstream stream;
     stream << std::fixed << std::setprecision(2) << weather_data.getWindSpeed();
     
@@ -86,7 +67,7 @@ void setText(string astr[])
     astr[2] += " Wilgotność powietrza sięga " + weather_data.getHumidity() + " procent.";
 }
 
-Location * checkLocation(char * arg)
+const Location * checkLocation(char * arg)
 {   
     for (int i = 0; i < DB_SIZE; i++)
     {
@@ -144,7 +125,7 @@ void run_command(int counter, char * args[])
         }
         case 3:
         {
-            Location * tmp_ptr_loc = checkLocation(args[2]);
+            const Location * tmp_ptr_loc = checkLocation(args[2]);
                 
             if(strcmp(args[1],"weather") == 0 && tmp_ptr_loc != nullptr) 
             {
@@ -182,7 +163,7 @@ void run_command(int counter, char * args[])
         }
         case 4:
         {
-            Location * tmp_ptr_loc = checkLocation(args[2]);
+            const Location * tmp_ptr_loc = checkLocation(args[2]);
             if(strcmp(args[1],"weather") == 0 && tmp_ptr_loc != nullptr && strcmp(args[3],"speech") == 0 ) 
             {
                 weather_data.getWeatherData(*tmp_ptr_loc);
@@ -212,7 +193,7 @@ int main(int argc, char * argv[])
     }
     catch(const std::exception &exc)
     {
-        cout << "Error - exception catched:\n";
+        cout << "Error - exception catch:\n";
         std::cerr << exc.what();
         cout << endl;
         return EXIT_FAILURE;

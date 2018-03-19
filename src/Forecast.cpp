@@ -1,7 +1,7 @@
 /* ------------ ForecastData.cpp ------------ *
  *  */
-
-#include "audiostation.h"
+#include "Audiostation.h"
+#include "Constants.h"
 #include <string>
 #include <cstring>
 #include <iostream>
@@ -14,24 +14,25 @@ using std::string;
 using std::cout;
 using std::endl;
 
-ForecastData::ForecastData()
+/*ForecastData::ForecastData()
 {
-    url = "http://api.openweathermap.org/data/2.5/forecast/daily?";
-}
+    
+}*/
 
 void ForecastData::getForecastData(Location loc)
 {
     string read_buffer;
-    string temp_url = url + "lat="+ loc.lat + "&lon=" + loc.lon + "&units=metric&cnt=7&appid=" + api_key;
+    string temp_url = ConstantsURL::forecast + "lat="+ loc.lat + "&lon=" + loc.lon 
+            + "&units=metric&cnt=7&appid=" + ConstantsOther::api_key;
     
     read_buffer = getData(temp_url, read_buffer);
 
     for (int i = 0; i < A_SIZE; i++)
     {	// save temperature for 7 days (string to double & round double & cast to int)
-        temps_day[i] = round(atof(separateData(read_buffer, "day", i).c_str()));
-        temps_night[i] = round(atof(separateData(read_buffer, "night", i).c_str()));
-        icons[i] = separateData(read_buffer, "icon", i);
-        dates[i] = separateData(read_buffer, "dt", i);
+        temps_day[i] = round(atof(separateData(read_buffer, ConstantsJSON::day_temp, i).c_str()));
+        temps_night[i] = round(atof(separateData(read_buffer, ConstantsJSON::night_temp, i).c_str()));
+        icons[i] = separateData(read_buffer, ConstantsJSON::icon, i);
+        dates[i] = separateData(read_buffer, ConstantsJSON::date, i);
         dates[i] = convertTime(dates[i]);
     }
     
@@ -41,7 +42,7 @@ void ForecastData::getForecastData(Location loc)
 /* Function converts from unix timestamp string to formatted string (YYYY-MM-DD)*/
 string ForecastData::convertTime(string str)
 {
-    char date[20], timestamp[20];
+    char date[20], timestamp[20]; 
     struct std::tm *tm;
 
     strcpy(timestamp, str.c_str());

@@ -1,7 +1,7 @@
 /* ------------ AbstractClass.cpp ------------ *
  * Abstract Class for all meteo/timezone data  */
 
-#include "audiostation.h"
+#include "Audiostation.h"
 #include <curl/curl.h>
 #include <iostream>
 #include <sstream>
@@ -35,7 +35,7 @@ string BaseData::splitStr(const string str, char delimiter, int number)
 }
 
 /* Function uses libcurl for getting data from url (url)
- * and returns callback in buffer (read_buffer)*/
+ * and returns callback in read_buffer */
 string BaseData::getData(string url, string read_buffer)
 {
     CURL *curl;
@@ -59,15 +59,18 @@ string BaseData::getData(string url, string read_buffer)
 }
 
 /* Simple JSON parser, takes out variable value 
- * specified in var from input (input) */
+ * specified in var from input */
 string BaseData::getValue(string input, string var)
 {
-    signed int ind = input.find(var); 
+    signed int ind = input.find(var);
     string str = input.substr(ind);
+
     ind = str.find(":");
     str = str.substr(ind+1);
+
     ind = str.find(",");
     str = str.substr(0,ind);
+
     ind = str.find("}");
     if(ind != -1)
         str = str.substr(0,ind);
@@ -79,6 +82,7 @@ string BaseData::getValue(string input, string var)
             default: {str = str.substr(0,ind);break;}
         }
     }while(ind != -1);
+
     return str;
 }
 

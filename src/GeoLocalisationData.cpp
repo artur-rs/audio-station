@@ -1,6 +1,7 @@
 /* ------------ GeoLocalisationData.cpp ------------ *
  *  */
-#include "audiostation.h"
+#include "Audiostation.h"
+#include "Constants.h"
 #include <iostream>
 #include <string>
 using std::string;
@@ -9,21 +10,20 @@ using std::endl;
 
 GeoLocalisationData::GeoLocalisationData()
 {
-    ip_url = {"https://api.ipify.org"};
-    url = {"http://freegeoip.net/json/"};
+    ip_url = ConstantsURL::ip;
 }
 
 void GeoLocalisationData::getGeoData()
 {
     string read_buffer, temp_url;
 
-    ip_address = getData(ip_url, ip_address);
-    temp_url = url + ip_address;
+    read_buffer = getData(ip_url, ip_address);
+    temp_url = ConstantsURL::localisation + ip_address;
     read_buffer = getData(temp_url,read_buffer);
 
-    location.city = getValue(read_buffer,"city");
-    location.lat = getValue(read_buffer,"lat");
-    location.lon = getValue(read_buffer,"lon");
+    location.city = getValue(read_buffer,ConstantsJSON::city);
+    location.lat = getValue(read_buffer,ConstantsJSON::latitude);
+    location.lon = getValue(read_buffer,ConstantsJSON::longitude);
 }
 
 /* Function displays current geolocalisation. */

@@ -1,7 +1,8 @@
 /* ------------ Database.cpp ------------ *
  *  */
 
-#include "audiostation.h"
+#include "Audiostation.h"
+#include "Constants.h"
 #include <iostream>
 #include <string>
 using std::cout;
@@ -28,7 +29,7 @@ string Database::getVariant(string tmp, int var)
     }
 }
 
-void Database::printRow(Location * ptr)
+void Database::printRow(const Location * ptr)
 {
     cout << "|" << getVariant(ptr->city,1) << ptr->city << getVariant(ptr->city,2)
              << "|" << getVariant((ptr+1)->city,1) << (ptr+1)->city << getVariant((ptr+1)->city,2)
@@ -41,7 +42,7 @@ void Database::printDatabase()
 {
     std::string separator = "-------------------------------------------------------------";
     const int rows = DB_SIZE/4;
-    Location * ptr = data;
+    const Location * ptr = data;
     
     cout << separator << endl;
     cout << "|                           " << header << "                          |" << endl;

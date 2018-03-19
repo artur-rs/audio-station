@@ -1,7 +1,8 @@
 /* ------------ TimeZoneData.cpp ------------ *
  *  */
 
-#include "audiostation.h"
+#include "Audiostation.h"
+#include "Constants.h"
 #include <string>
 #include <cstring>
 #include <iostream>
@@ -10,23 +11,24 @@
 using std::string;
 using std::cout;
 using std::endl;
+using namespace ConstantsIcon;
 
-TimeZoneData::TimeZoneData() 
+/*TimeZoneData::TimeZoneData() 
 {
-    url = "http://api.geonames.org/timezoneJSON?";
-}
+    
+}*/
 
 void TimeZoneData::getTimeZoneData(Location loc)
 {
     string read_buffer, temp_url, date_time;
     
-    temp_url = url + "lat="+ loc.lat +"&lng=" + loc.lon
-            + "&username=" + username;
+    temp_url = ConstantsURL::timezone + "lat="+ loc.lat +"&lng=" + loc.lon
+            + "&username=" + ConstantsOther::username;
     read_buffer = getData(temp_url,read_buffer);
     
-    sunrise = splitStr(getValue(read_buffer,"sunrise"),' ',2);
-    sunset = splitStr(getValue(read_buffer,"sunset"),' ',2);
-    date_time = getValue(read_buffer,"time\"");
+    sunrise = splitStr(getValue(read_buffer,ConstantsJSON::sunrise),' ',2);
+    sunset = splitStr(getValue(read_buffer,ConstantsJSON::sunset),' ',2);
+    date_time = getValue(read_buffer,ConstantsJSON::time);
     date = splitStr(date_time, ' ', 1);
     time = splitStr(date_time, ' ', 2);
 }
@@ -50,16 +52,24 @@ bool TimeZoneData::checkSunset()
 string TimeZoneData::decodeIcon(string a, bool check)
 {   
     string str;
-    if (a == "01d" && !check)  str = "     Słonecznie    ";
-    else if (a == "01n" || (a == "01d" && check))  str = "    Bezchmurnie    ";
-    else if (a == "02d" || a == "03d" || a == "02n" || a == "03n") 
-        str = "Lekkie zachmurzenie";
-    else if (a == "10d" || a == "10n") str = "    Lekki deszcz   ";
-    else if (a == "04d" || a == "04n") str = " Duże zachmurzenie ";
-    else if (a == "09d" || a == "09n")  str = "   Opady deszczu   ";
-    else if (a == "11d" || a == "11n") str = " Burza z piorunami ";
-    else if (a == "13d" || a == "13n") str = "    Opady śniegu   ";
-    else str = "       Mglisto     ";
+    if (a == clear_sky_d && !check)  
+        str = ConstantsWeather::sunny;
+    else if (a == clear_sky_n || (a == clear_sky_d && check))  
+        str = ConstantsWeather::clear_sky;
+    else if (a == few_clouds_d || a == few_clouds_n || a == scatt_clouds_d || a == scatt_clouds_n) 
+        str = ConstantsWeather::few_clouds;
+    else if (a == rain_d || a == rain_n) 
+        str = ConstantsWeather::rain;
+    else if (a == broken_clouds_d || a == broken_clouds_n) 
+        str = ConstantsWeather::broken_clouds;
+    else if (a == shower_rain_d || a == shower_rain_n)  
+        str = ConstantsWeather::shower_rain;
+    else if (a == thunderstorm_d || a == thunderstorm_n) 
+        str = ConstantsWeather::thunderstorm;
+    else if (a == snow_d || a == snow_n) 
+        str = ConstantsWeather::snow;
+    else if (a == mist_d || a == mist_n)
+        str = ConstantsWeather::mist;
     
     return str;
 }
