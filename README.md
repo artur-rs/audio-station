@@ -11,4 +11,4 @@ Application uses script written in bash - "speech.sh" ( which requires installed
 After changes compile with -std=c++11, ex.:
 $ g++ src/*.cpp -o audio.out -lcurl -std=c++11 
 
-Successful compilation requires installed libcurl-openssl-dev.
+Successful compilation requires installed libcurl4-openssl-dev.
