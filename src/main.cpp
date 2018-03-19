@@ -43,7 +43,7 @@ Database db_wr = Database("World ", database_world);
 
 void textToSpeech(const char * ptr)
 {
-    char command[270] = {"/home/artur-rs/Desktop/audiocpp/audio-station/speech.sh "}; 
+    char command[270] = {"./speech.sh "}; 
     strcat(command, ptr); 
   
     try 
