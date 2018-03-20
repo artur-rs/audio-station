@@ -37,7 +37,7 @@ void WeatherData::getWeatherData(Location loc)
     icon = getValue(read_buffer,ConstantsJSON::icon);
 
     timezone_weather.getTimeZoneData(loc);
-    weather = timezone_weather.decodeIcon(icon,timezone_weather.checkSunset()); 
+    weather = timezone_weather.decodeIcon(icon,timezone_weather.checkSunset(),true); 
 }
 
 /* Function displays current weather information. */

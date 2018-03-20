@@ -13,45 +13,51 @@ using std::endl;
     
 }*/
 
-string Database::getVariant(string tmp, int var)
+string Database::createSeparator(const char c, int num)
 {
-    switch(tmp.length())
+    string str;
+    
+    for(int i = 1; i <= num; i++)
     {
-        case 4: if(var == 1) {return "     ";} else {return "     ";} break; 
-        case 5: if(var == 1) {return "    ";} else {return "     ";} break;
-        case 6: if(var == 1) {return "    ";} else {return "    ";} break;  
-        case 7: if(var == 1) {return "   ";} else {return "    ";} break; 
-        case 8: if(var == 1) {return "   ";} else {return "   ";} break;
-        case 9: if(var == 1) {return "  ";} else {return "   ";} break;
-        case 10: if(var == 1) {return "  ";} else {return "  ";} break; 
-        case 11: if(var == 1) {return " ";} else {return "  ";} break;
-        case 12: if(var == 1) {return " ";} else {return " ";} break;
+        str += c;
     }
+    
+    return str;
+}
+
+string Database::fillRow(string tmp, const int width)
+{
+    int diff = width - tmp.size();
+    int mod = diff % 2;
+    
+    string filledRow = createSeparator(ROW_FILL, diff/2) 
+            + tmp + createSeparator(ROW_FILL, diff/2 + mod);
+
+    return filledRow;
 }
 
 void Database::printRow(const Location * ptr)
 {
-    cout << "|" << getVariant(ptr->city,1) << ptr->city << getVariant(ptr->city,2)
-             << "|" << getVariant((ptr+1)->city,1) << (ptr+1)->city << getVariant((ptr+1)->city,2)
-             << "|" << getVariant((ptr+2)->city,1) << (ptr+2)->city << getVariant((ptr+2)->city,2)
-             << "|" << getVariant((ptr+3)->city,1) << (ptr+3)->city << getVariant((ptr+3)->city,2) 
-             << "|" << endl;
+    cout << COL_SEPARATOR << fillRow(ptr->city,COL_WIDTH)
+        << COL_SEPARATOR << fillRow((ptr+1)->city,COL_WIDTH) 
+        << COL_SEPARATOR << fillRow((ptr+2)->city,COL_WIDTH) 
+        << COL_SEPARATOR << fillRow((ptr+3)->city,COL_WIDTH)
+        << COL_SEPARATOR << endl;
 }
 
 void Database::printDatabase()
 {
-    std::string separator = "-------------------------------------------------------------";
-    const int rows = DB_SIZE/4;
-    const Location * ptr = data;
+    string separator = createSeparator(TABLE_SEPARATOR, TABLE_WIDTH);
+    string header_row = fillRow(header, TABLE_WIDTH-2);
     
     cout << separator << endl;
-    cout << "|                           " << header << "                          |" << endl;
+    cout << COL_SEPARATOR << header_row << COL_SEPARATOR << endl;
     cout << separator << endl;
 
-    for (int i = 0; i < rows; i++)
+    for (int i = 0; i < ROWS; i++)
     {  
-       printRow(ptr); 
-       ptr += 4;
+       printRow(data);
+       data += COLUMNS;
     }
     cout << separator << endl << endl;
 }

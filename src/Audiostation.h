@@ -52,7 +52,7 @@ class TimeZoneData : public BaseData
 public:
     string sunrise, sunset, time, date;
     bool checkSunset();
-    string decodeIcon(string a, bool check);
+    string decodeIcon(string a, bool check, bool synth);
     TimeZoneData(){}
     ~TimeZoneData() {}
     void getTimeZoneData(Location loc);
@@ -86,7 +86,8 @@ private:
     str_array icons, dates;
     TimeZoneData timezone_forecast;
     string convertTime(string str);
-    string getVariant(string tmp, int var);
+    string createSeparator(const char c, int num);
+    string fillRow(string tmp, const int width);
     string separateData(string input, string var, int i);   
 public:
     ForecastData() {}
@@ -100,7 +101,8 @@ class Database
 private:
     const string header;
     const Location * data; 
-    string getVariant(string tmp, int var);
+    string createSeparator(const char c, int num);
+    string fillRow(string tmp, const int width);
     void printRow(const Location * ptr);
 public:
     Database(string str, const Location loc_array[]) : header(str) {data = &loc_array[0];}

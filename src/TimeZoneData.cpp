@@ -49,27 +49,27 @@ bool TimeZoneData::checkSunset()
 
 /* Method decodes icon from html response in JSON data and returns
  * string with weather information. */
-string TimeZoneData::decodeIcon(string a, bool check)
+string TimeZoneData::decodeIcon(string a, bool check, bool synth)
 {   
     string str;
     if (a == clear_sky_d && !check)  
-        str = ConstantsWeather::sunny;
+        if (synth) str = ConstantsWeather::sunny.syntheser; else str = ConstantsWeather::sunny.printable;
     else if (a == clear_sky_n || (a == clear_sky_d && check))  
-        str = ConstantsWeather::clear_sky;
+        if (synth) str = ConstantsWeather::clear_sky.syntheser; else str = ConstantsWeather::clear_sky.printable;
     else if (a == few_clouds_d || a == few_clouds_n || a == scatt_clouds_d || a == scatt_clouds_n) 
-        str = ConstantsWeather::few_clouds;
+        if (synth) str = ConstantsWeather::few_clouds.syntheser; else str = ConstantsWeather::few_clouds.printable;
     else if (a == rain_d || a == rain_n) 
-        str = ConstantsWeather::rain;
+        if (synth) str = ConstantsWeather::rain.syntheser; else str = ConstantsWeather::rain.printable;
     else if (a == broken_clouds_d || a == broken_clouds_n) 
-        str = ConstantsWeather::broken_clouds;
+        if (synth) str = ConstantsWeather::broken_clouds.syntheser; else str = ConstantsWeather::broken_clouds.printable;
     else if (a == shower_rain_d || a == shower_rain_n)  
-        str = ConstantsWeather::shower_rain;
+        if (synth) str = ConstantsWeather::shower_rain.syntheser; else str = ConstantsWeather::shower_rain.printable;
     else if (a == thunderstorm_d || a == thunderstorm_n) 
-        str = ConstantsWeather::thunderstorm;
+        if (synth) str = ConstantsWeather::thunderstorm.syntheser; else str = ConstantsWeather::thunderstorm.printable;
     else if (a == snow_d || a == snow_n) 
-        str = ConstantsWeather::snow;
+        if (synth) str = ConstantsWeather::snow.syntheser; else str = ConstantsWeather::snow.printable;
     else if (a == mist_d || a == mist_n)
-        str = ConstantsWeather::mist;
+        if (synth) str = ConstantsWeather::mist.syntheser; else str = ConstantsWeather::mist.printable;
     
     return str;
 }

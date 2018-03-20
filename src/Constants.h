@@ -5,6 +5,56 @@
 #include <string>
 using std::string;
 
+const int DB_SIZE = 24;
+const int COLUMNS = 4;
+const int ROWS = 6;
+const int COL_WIDTH = 14;
+const int TABLE_WIDTH = COLUMNS * COL_WIDTH + COLUMNS + 1;
+
+const int DATE_COL_WIDTH = 12;
+const int TEMPERATURE_COL_WIDTH = 9;
+const int WEATHER_COL_WIDTH = 21;
+const int FORECAST_TABLE_WIDTH = DATE_COL_WIDTH + 2*TEMPERATURE_COL_WIDTH + WEATHER_COL_WIDTH + 5;
+
+const char TABLE_SEPARATOR = '-';
+const char COL_SEPARATOR = '|';
+const char ROW_FILL = ' ';
+
+struct Weather
+{
+    const string printable; //ASCII CHARACTERS ONLY
+    const string syntheser;
+};
+
+namespace ConstantsForecast
+{
+    const string header1 = "Data";
+    const string header2 = "Temperatura [C]";
+    const string header3 = "Dzien";
+    const string header4 = "Noc";
+    const string header5 = "Pogoda";
+}
+
+const Location database_pl[DB_SIZE] = 
+{
+    {"Bialystok","53.14" , "23.16"},    {"Bydgoszcz","53.12" , "18.01"},    {"Czestochowa","50.83" , "19.11"},  {"Gdansk","54.36" , "18.64"},    
+    {"Gdynia","54.51" , "18.50"},       {"Gorzow_Wlkp","52.74" , "15.23"},  {"Katowice","50.26" , "19.02"},     {"Kielce","50.89" , "20.65"},       
+    {"Krakow","50.08" , "19.92"},       {"Lublin","51.25" , "22.57"},       {"Lodz","51.77" , "19.46"},         {"Olsztyn","53.78" , "20.49"},  
+    {"Opole","50.67" , "17.95"},        {"Poznan","52.40" , "16.90"},       {"Radom","21.16" , "51.42"},        {"Rzeszow","50.05" , "22.00"},      
+    {"Siedlce","52.17" , "22.29"},      {"Suwalki","54.11" , "22.94"},      {"Szczecin","53.43" , "14.62"},     {"Torun","53.01" , "18.59"},        
+    {"Warszawa","52.23" , "21.04"},     {"Wroclaw","51.11" , "17.03"},      {"Zakopane","49.27" , "19.97"},     {"Zielona_Gora","51.94" , "15.49"}
+};
+    
+const Location database_world[DB_SIZE] =    
+{    
+    {"Ankara","39.92" , "32.85"},       {"Ateny","37.98" , "23.72"},         {"Bangkok","13.75" , "100.52"},        {"Berlin","52.52" , "13.41"},     
+    {"Budapeszt","47.50" , "19.04"},    {"Buenos_Aires","-34.61" , "-58.38"},{"Johannesburg","-26.20" , "28.04"},   {"Kair","30.06" , "31.25"},        
+    {"Londyn","51.51" , "-0.12"},       {"Los_Angeles","34.05" , "-118.24"}, {"Madryt","40.49" , "-3.68"},          {"Meksyk","19.43" , "-99.13"},         
+    {"Miami","25.77" , "-80.19"},       {"Montreal","45.51" , "-73.59"},     {"Moskwa","55.75" , "37.62"},          {"Nowy_Jork","40.71" , "-74.01"},   
+    {"Oslo","10.75" , "59.91"},         {"Paryz","48.85" , "2.35"},          {"Pekin","39.91" , "116.40"},          {"Rzym","41.89" , "12.48"},          
+    {"Sydney","-33.87" , "151.21"},     {"Sztokholm","59.33" , "18.06"},     {"Tokio","35.69" , "139.70"},          {"Waszyngton","38.89" , "-77.04"}
+};
+
 namespace ConstantsURL
 {
     const string weather        = "http://api.openweathermap.org/data/2.5/weather?";
@@ -40,15 +90,15 @@ namespace ConstantsJSON
 
 namespace ConstantsWeather
 {
-    const string sunny          = "     Słonecznie    ";
-    const string clear_sky      = "    Bezchmurnie    ";
-    const string few_clouds     = "Lekkie zachmurzenie";
-    const string broken_clouds  = " Duże zachmurzenie ";
-    const string shower_rain    = " Przelotny deszcz  "; 
-    const string rain           = "   Opady deszczu   ";
-    const string thunderstorm   = " Burza z piorunami ";
-    const string snow           = "    Opady śniegu   ";
-    const string mist           = "       Mglisto     ";
+    const Weather sunny          = {"Slonecznie","Słonecznie"};
+    const Weather clear_sky      = {"Bezchmurnie","Bezchmurnie"};
+    const Weather few_clouds     = {"Lekkie zachmurzenie","Lekkie zachmurzenie"};
+    const Weather broken_clouds  = {"Duze zachmurzenie","Duże zachmurzenie"};
+    const Weather shower_rain    = {"Przelotny deszcz","Przelotny deszcz"}; 
+    const Weather rain           = {"Opady deszczu","Opady deszczu"};
+    const Weather thunderstorm   = {"Burza z piorunami","Burza z piorunami"};
+    const Weather snow           = {"Opady sniegu","Opady śniegu"};
+    const Weather mist           = {"Mglisto","Mglisto"};
 }
 
 namespace ConstantsIcon
@@ -72,28 +122,6 @@ namespace ConstantsIcon
     const string mist_d           = "50d";
     const string mist_n           = "50n";  
 }
-
-const int DB_SIZE = 24;
-
-const Location database_pl[DB_SIZE] = 
-{
-    {"Bialystok","53.14" , "23.16"},    {"Bydgoszcz","53.12" , "18.01"},    {"Czestochowa","50.83" , "19.11"},  {"Gdansk","54.36" , "18.64"},    
-    {"Gdynia","54.51" , "18.50"},       {"Gorzow_Wlkp","52.74" , "15.23"},  {"Katowice","50.26" , "19.02"},     {"Kielce","50.89" , "20.65"},       
-    {"Krakow","50.08" , "19.92"},       {"Lublin","51.25" , "22.57"},       {"Lodz","51.77" , "19.46"},         {"Olsztyn","53.78" , "20.49"},  
-    {"Opole","50.67" , "17.95"},        {"Poznan","52.40" , "16.90"},       {"Radom","21.16" , "51.42"},        {"Rzeszow","50.05" , "22.00"},      
-    {"Siedlce","52.17" , "22.29"},      {"Suwalki","54.11" , "22.94"},      {"Szczecin","53.43" , "14.62"},     {"Torun","53.01" , "18.59"},        
-    {"Warszawa","52.23" , "21.04"},     {"Wroclaw","51.11" , "17.03"},      {"Zakopane","49.27" , "19.97"},     {"Zielona_Gora","51.94" , "15.49"}
-};
-    
-const Location database_world[DB_SIZE] =    
-{    
-    {"Ankara","39.92" , "32.85"},       {"Ateny","37.98" , "23.72"},         {"Bangkok","13.75" , "100.52"},        {"Berlin","52.52" , "13.41"},     
-    {"Budapeszt","47.50" , "19.04"},    {"Buenos_Aires","-34.61" , "-58.38"},{"Johannesburg","-26.20" , "28.04"},   {"Kair","30.06" , "31.25"},        
-    {"Londyn","51.51" , "-0.12"},       {"Los_Angeles","34.05" , "-118.24"}, {"Madryt","40.49" , "-3.68"},          {"Meksyk","19.43" , "-99.13"},         
-    {"Miami","25.77" , "-80.19"},       {"Montreal","45.51" , "-73.59"},     {"Moskwa","55.75" , "37.62"},          {"Nowy_Jork","40.71" , "-74.01"},   
-    {"Oslo","10.75" , "59.91"},         {"Paryz","48.85" , "2.35"},          {"Pekin","39.91" , "116.40"},          {"Rzym","41.89" , "12.48"},          
-    {"Sydney","-33.87" , "151.21"},     {"Sztokholm","59.33" , "18.06"},     {"Tokio","35.69" , "139.70"},          {"Waszyngton","38.89" , "-77.04"}
-};
 
 #endif /* CONSTANTS_H */
 
