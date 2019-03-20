@@ -26,7 +26,7 @@ string BaseData::splitStr(const string str, char delimiter, int number)
     std::vector<string> tokens;
     std::stringstream strstream(str);
     string temp_str;
-    
+
     while(getline(strstream,temp_str,delimiter))
     {
         tokens.push_back( temp_str );
@@ -58,7 +58,7 @@ string BaseData::getData(string url, string read_buffer)
     return read_buffer;
 }
 
-/* Simple JSON parser, takes out variable value 
+/* Simple JSON parser, takes out variable value
  * specified in var from input */
 string BaseData::getValue(string input, string var)
 {

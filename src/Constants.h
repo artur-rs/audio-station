@@ -5,6 +5,8 @@
 #include <string>
 using std::string;
 
+const int MAX_CMD_NUM = 3;
+
 const int DB_SIZE = 24;
 const int COLUMNS = 4;
 const int ROWS = 6;
@@ -23,19 +25,10 @@ const char ROW_FILL = ' ';
 struct Weather
 {
     const string printable; //ASCII CHARACTERS ONLY
-    const string syntheser;
+    const string synthesable;
 };
 
-namespace ConstantsForecast
-{
-    const string header1 = "Data";
-    const string header2 = "Temperatura [C]";
-    const string header3 = "Dzien";
-    const string header4 = "Noc";
-    const string header5 = "Pogoda";
-}
-
-const Location database_pl[DB_SIZE] = 
+const Location database_pl[DB_SIZE] =
 {
     {"Bialystok","53.14" , "23.16"},    {"Bydgoszcz","53.12" , "18.01"},    {"Czestochowa","50.83" , "19.11"},  {"Gdansk","54.36" , "18.64"},    
     {"Gdynia","54.51" , "18.50"},       {"Gorzow_Wlkp","52.74" , "15.23"},  {"Katowice","50.26" , "19.02"},     {"Kielce","50.89" , "20.65"},       
@@ -44,9 +37,9 @@ const Location database_pl[DB_SIZE] =
     {"Siedlce","52.17" , "22.29"},      {"Suwalki","54.11" , "22.94"},      {"Szczecin","53.43" , "14.62"},     {"Torun","53.01" , "18.59"},        
     {"Warszawa","52.23" , "21.04"},     {"Wroclaw","51.11" , "17.03"},      {"Zakopane","49.27" , "19.97"},     {"Zielona_Gora","51.94" , "15.49"}
 };
-    
-const Location database_world[DB_SIZE] =    
-{    
+
+const Location database_world[DB_SIZE] =
+{
     {"Ankara","39.92" , "32.85"},       {"Ateny","37.98" , "23.72"},         {"Bangkok","13.75" , "100.52"},        {"Berlin","52.52" , "13.41"},     
     {"Budapeszt","47.50" , "19.04"},    {"Buenos_Aires","-34.61" , "-58.38"},{"Johannesburg","-26.20" , "28.04"},   {"Kair","30.06" , "31.25"},        
     {"Londyn","51.51" , "-0.12"},       {"Los_Angeles","34.05" , "-118.24"}, {"Madryt","40.49" , "-3.68"},          {"Meksyk","19.43" , "-99.13"},         
@@ -67,10 +60,10 @@ namespace ConstantsURL
 namespace ConstantsOther
 {
     const string username       = "artur560";
-    const string api_key        = "3981018313f7c5839c599b868ea745a8";  
+    const string api_key        = "3981018313f7c5839c599b868ea745a8";
 }
 
-namespace ConstantsJSON 
+namespace ConstantsJSON
 {
     const string temperature    = "temp";
     const string windspeed      = "speed";
@@ -85,7 +78,7 @@ namespace ConstantsJSON
     const string time           = "time\"";
     const string day_temp       = "day";
     const string night_temp     = "night";
-    const string date           = "dt";   
+    const string date           = "dt";
 }
 
 namespace ConstantsWeather
@@ -94,7 +87,7 @@ namespace ConstantsWeather
     const Weather clear_sky      = {"Bezchmurnie","Bezchmurnie"};
     const Weather few_clouds     = {"Lekkie zachmurzenie","Lekkie zachmurzenie"};
     const Weather broken_clouds  = {"Duze zachmurzenie","Duże zachmurzenie"};
-    const Weather shower_rain    = {"Przelotny deszcz","Przelotny deszcz"}; 
+    const Weather shower_rain    = {"Przelotny deszcz","Przelotny deszcz"};
     const Weather rain           = {"Opady deszczu","Opady deszczu"};
     const Weather thunderstorm   = {"Burza z piorunami","Burza z piorunami"};
     const Weather snow           = {"Opady sniegu","Opady śniegu"};
@@ -120,8 +113,39 @@ namespace ConstantsIcon
     const string snow_d           = "13d";
     const string snow_n           = "13n";
     const string mist_d           = "50d";
-    const string mist_n           = "50n";  
+    const string mist_n           = "50n";
+}
+
+namespace ConstantsForecast
+{
+    const string header1 = "Data";
+    const string header2 = "Temperatura [C]";
+    const string header3 = "Dzien";
+    const string header4 = "Noc";
+    const string header5 = "Pogoda";
+}
+
+namespace ConstantsCommands
+{
+    const string help = "Available commands:\n"
+                        "-h         - \"help\", shows available commands.\n"
+                        "-d         - \"database\", shows locations database.\n"
+                        "-w         - \"weather\", current weather for geolocation.\n"
+                        "-f         - \"forecast\", forecast data for geolocation.\n"
+                        "-s         - \"speech\", current weather in audio mode for geolocation.\n"
+                        "-w [city]  - current weather for city from database.\n"
+                        "-f [city]  - forecast data for city from database.\n"
+                        "-s [city]  - current weather in audio mode for city from database.\n\n"
+                        "If you need can more infotmation in one program call, "
+                        "merge flags: w,f,s (order doesn't matter).\n";
+
+    const string headline1 = "\nCurrent weather for: ";
+    const string headline2 = "\nWeather forecast for: ";
+    const string speech1 = "Pogoda dla miasta ";
+
+    const string error1 = "Incorrect argument, check \"-h\" for available commands.\n";
+    const string error2 = "Incorrect argument[s], check \"-h\" for commands or \"-d\" for cities database.\n";
+    const string error3 = "Incorrect number of arguments, check \"-h\" for commands.\n";
 }
 
 #endif /* CONSTANTS_H */
-

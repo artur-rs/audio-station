@@ -11,7 +11,7 @@ using std::string;
 
 struct Location
 {
-    string city; 
+    string city;
     string lat;
     string lon;
 };
@@ -49,11 +49,12 @@ public:
 //------------------------------------------------------------------------------
 class TimeZoneData : public BaseData
 {
+private:
+    bool checkSunset();
 public:
     string sunrise, sunset, time, date;
-    bool checkSunset();
-    string decodeIcon(string a, bool check, bool synth);
-    TimeZoneData(){}
+    string decodeIcon(string a, bool synth);
+    TimeZoneData() {}
     ~TimeZoneData() {}
     void getTimeZoneData(Location loc);
     virtual void getInfo();
@@ -62,16 +63,15 @@ public:
 class WeatherData : public BaseData
 {
 private:
-    int temp_c;
-    double windspeed;
-    string icon, humidity, pressure, weather;
+    string temperature, windspeed, humidity, pressure;
+    string icon, weather;
     TimeZoneData timezone_weather;
 public:
-    WeatherData();
+    WeatherData() {}
     ~WeatherData() {}
     const string & getTime() {return timezone_weather.time;}
-    const int & getTemp() {return temp_c;}
-    const double & getWindSpeed() {return windspeed;}
+    const string & getTemp() {return temperature;}
+    const string & getWindSpeed() {return windspeed;}
     const string & getHumidity() {return humidity;}
     const string & getPressure() {return pressure;}
     const string & getWeather() {return weather;}
@@ -88,7 +88,7 @@ private:
     string convertTime(string str);
     string createSeparator(const char c, int num);
     string fillRow(string tmp, const int width);
-    string separateData(string input, string var, int i);   
+    string separateData(string input, string var, int i);
 public:
     ForecastData() {}
     ~ForecastData() {}
@@ -100,7 +100,7 @@ class Database
 {
 private:
     const string header;
-    const Location * data; 
+    const Location * data;
     string createSeparator(const char c, int num);
     string fillRow(string tmp, const int width);
     void printRow(const Location * ptr);
