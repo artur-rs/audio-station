@@ -16,15 +16,15 @@ using std::endl;
 
 /*ForecastData::ForecastData()
 {
-    
+
 }*/
 
 void ForecastData::getForecastData(Location loc)
 {
     string read_buffer;
-    string temp_url = ConstantsURL::forecast + "lat="+ loc.lat + "&lon=" + loc.lon 
+    string temp_url = ConstantsURL::forecast + "lat="+ loc.lat + "&lon=" + loc.lon
             + "&units=metric&cnt=7&appid=" + ConstantsOther::api_key;
-    
+
     read_buffer = getData(temp_url, read_buffer);
 
     for (int i = 0; i < A_SIZE; i++)
@@ -35,14 +35,14 @@ void ForecastData::getForecastData(Location loc)
         dates[i] = separateData(read_buffer, ConstantsJSON::date, i);
         dates[i] = convertTime(dates[i]);
     }
-    
+
     timezone_forecast.getTimeZoneData(loc);
 }
 
 /* Function converts from unix timestamp string to formatted string (YYYY-MM-DD)*/
 string ForecastData::convertTime(string str)
 {
-    char date[20], timestamp[20]; 
+    char date[20], timestamp[20];
     struct std::tm *tm;
 
     strcpy(timestamp, str.c_str());
@@ -83,12 +83,12 @@ string ForecastData::separateData(string input, string var, int i)
 string ForecastData::createSeparator(const char c, int num)
 {
     string str;
-    
+
     for(int i = 1; i <= num; i++)
     {
         str += c;
     }
-    
+
     return str;
 }
 
@@ -96,10 +96,10 @@ string ForecastData::fillRow(string tmp, const int width)
 {
     int diff = width - tmp.size();
     int mod = diff % 2;
-    
-    string filledRow = createSeparator(ROW_FILL, diff/2) 
+
+    string filledRow = createSeparator(ROW_FILL, diff/2)
             + tmp + createSeparator(ROW_FILL, diff/2 + mod);
-    
+
     return filledRow;
 }
 
@@ -114,7 +114,7 @@ void ForecastData::getInfo()
     cout << COL_SEPARATOR << createSeparator(ROW_FILL, DATE_COL_WIDTH) << COL_SEPARATOR
          << fillRow(ConstantsForecast::header2,2*TEMPERATURE_COL_WIDTH+1)  << COL_SEPARATOR
          << createSeparator(ROW_FILL, WEATHER_COL_WIDTH) << COL_SEPARATOR << endl;
-    // HEADER - second row    
+    // HEADER - second row
     cout << COL_SEPARATOR << fillRow(ConstantsForecast::header1, DATE_COL_WIDTH) << COL_SEPARATOR
          << createSeparator(TABLE_SEPARATOR, 2*TEMPERATURE_COL_WIDTH+1)  << COL_SEPARATOR
          << fillRow(ConstantsForecast::header5, WEATHER_COL_WIDTH) << COL_SEPARATOR << endl;
@@ -123,21 +123,18 @@ void ForecastData::getInfo()
          << fillRow(ConstantsForecast::header3,TEMPERATURE_COL_WIDTH)  << COL_SEPARATOR
          << fillRow(ConstantsForecast::header4,TEMPERATURE_COL_WIDTH)  << COL_SEPARATOR
          << createSeparator(ROW_FILL, WEATHER_COL_WIDTH) << COL_SEPARATOR << endl;
-    cout << separator << endl;    
-    
+    cout << separator << endl;
+
     for(int i = 0; i < A_SIZE; i++)
     {
         tmp = std::to_string(temps_day[i]);
         cout << COL_SEPARATOR << fillRow(dates[i], DATE_COL_WIDTH) << COL_SEPARATOR
-             << fillRow(tmp,TEMPERATURE_COL_WIDTH) << COL_SEPARATOR;        
+             << fillRow(tmp,TEMPERATURE_COL_WIDTH) << COL_SEPARATOR;
 
          tmp = std::to_string(temps_night[i]);
-        cout << fillRow(tmp,TEMPERATURE_COL_WIDTH) << COL_SEPARATOR 
-             << fillRow(timezone_forecast.decodeIcon(icons[i], timezone_forecast.checkSunset(),false), WEATHER_COL_WIDTH)
+        cout << fillRow(tmp,TEMPERATURE_COL_WIDTH) << COL_SEPARATOR
+             << fillRow(timezone_forecast.decodeIcon(icons[i],false), WEATHER_COL_WIDTH)
              << COL_SEPARATOR << endl;
     }
     cout << separator << endl << endl;
 }
-
-
-

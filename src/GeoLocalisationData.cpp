@@ -29,6 +29,6 @@ void GeoLocalisationData::getGeoData()
 /* Function displays current geolocalisation. */
 void GeoLocalisationData::getInfo()
 {
-    cout << location.city << " (Lat: " << location.lat 
+    cout << location.city << " (Lat: " << location.lat
             << ", Lon: " << location.lon << ")" << endl;
 }
